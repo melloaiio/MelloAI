@@ -2,7 +2,6 @@
 
 <div align="center">
 
-[![Twitter URL](https://img.shields.io/twitter/url/https/twitter.com/DeMCP_AI.svg?style=social&label=Follow%20%40DeMCP_AI)]
 [![PyPI version](https://badge.fury.io/py/demcp_browser_mcp.svg)](https://pypi.org/project/demcp_browser_mcp/)
 
 **An MCP server that enables AI agents to control web browsers using
