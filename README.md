@@ -4,6 +4,7 @@ Your AI companion for Mental Wellness.
 
 ![Adobe Express - SaveTwitter Net_Yd2bu4MjbP7Quy_H_(568p)](https://github.com/user-attachments/assets/ecc22402-4c2b-4389-a3f7-a4518c62d278)
 
+
 # What's New
 
 ### 06.09.2025 
