@@ -2,7 +2,7 @@
 
 Your AI companion for Mental Wellness.
 
-https://github.com/user-attachments/assets/bca7d2dd-4785-4b4d-a617-ec0c74a83d32
+![Adobe Express - SaveTwitter Net_Yd2bu4MjbP7Quy_H_(568p)](https://github.com/user-attachments/assets/ecc22402-4c2b-4389-a3f7-a4518c62d278)
 
 # What's New
 
