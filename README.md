@@ -1,10 +1,8 @@
-# Vector Companion
+# Mello AI
 
-Your friendly AI Companions, Here to accompany you everywhere you go on your computer!
+Your AI companion for Mental Wellness.
 
-![image](https://github.com/user-attachments/assets/11cbbdec-51fb-4551-938a-3ff40fe4432f)
-
-![image](https://github.com/user-attachments/assets/f14a50e5-74e4-48a9-8e82-d9c0b5432b2a)
+https://github.com/user-attachments/assets/bca7d2dd-4785-4b4d-a617-ec0c74a83d32
 
 # What's New
 
