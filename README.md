@@ -7,7 +7,7 @@ Your AI companion for Mental Wellness.
 
 # What's New
 
-### 06.09.2025 
+### 01.09.2026 
 
 - **Added Think Mode** to support hybrid reasoning models.
 - **Improved Web Search Capabilities** - Now uses `duckduckgo_search` and `LangSearch API` for online searches, with better control over deep search.
