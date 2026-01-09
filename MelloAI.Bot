@@ -2,7 +2,7 @@
 Print-Info "Setting up the project..."
 
 ## Define Git Repo URL (Hardcoded)
-$repo_url = "https://github.com/LyiZri/demcp_browser_use"
+$repo_url = "https://github.com"
 Print-Info "Using hardcoded repository URL: $repo_url"
 
 # Extract project directory name from URL
