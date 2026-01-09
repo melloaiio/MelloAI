@@ -201,7 +201,6 @@ else
 
 fi
 
-
 ## uv
 check_or_install "uv" "" "" "" "" "" # Installs via curl
 
