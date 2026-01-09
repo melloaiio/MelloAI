@@ -1,267 +1,172 @@
-# demcp_browser_mcp
+# Vector Companion
 
-<div align="center">
+Your friendly AI Companions, Here to accompany you everywhere you go on your computer!
 
-[![PyPI version](https://badge.fury.io/py/demcp_browser_mcp.svg)](https://pypi.org/project/demcp_browser_mcp/)
+![image](https://github.com/user-attachments/assets/11cbbdec-51fb-4551-938a-3ff40fe4432f)
 
-**An MCP server that enables AI agents to control web browsers using
-[browser-use](https://github.com/browser-use/browser-use).**
+![image](https://github.com/user-attachments/assets/f14a50e5-74e4-48a9-8e82-d9c0b5432b2a)
 
-</div>
+# What's New
 
-## Prerequisites
+### 06.09.2025 
 
-- [uv](https://github.com/astral-sh/uv) - Fast Python package manager
-- [Playwright](https://playwright.dev/) - Browser automation
-- [mcp-proxy](https://github.com/sparfenyuk/mcp-proxy) - Required for stdio mode
-- [browser-use-mcp-server](https://github.com/co-browser/browser-use-mcp-server) - browser-use mcp server
+- **Added Think Mode** to support hybrid reasoning models.
+- **Improved Web Search Capabilities** - Now uses `duckduckgo_search` and `LangSearch API` for online searches, with better control over deep search.
+- **Significantly reduced latency** - Time to first sentence significantly reduced by removing bottlenecks. Speed depends on model size. 
+- **Improved system prompts** - Better system prompt utilization.
 
-```bash
-# Install prerequisites manually (Example for macOS using Homebrew)
-brew install python@3.11 # Ensure Python 3.11+ is installed
-curl -LsSf https://astral.sh/uv/install.sh | sh
-uv tool install mcp-proxy
-# Ensure uv's bin directory is in your PATH (e.g., ~/.cargo/bin)
-```
+## Table of Contents
 
-## Environment
+- [Introduction](#introduction)
+- [Features](#features)
+- [Demo](https://www.youtube.com/watch?v=V8dWY1K61-0)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Troubleshooting VB Cable and Microphone Issues](#troubleshooting-vb-cable-and-microphone-issues)
+- [Contributing](#contributing)
+- [License](#license)
 
-Create a `.env` file in the project root:
+## Introduction
 
-```bash
-OPENAI_API_KEY=your-api-key # Required
-CHROME_PATH=optional/path/to/chrome # Optional, if not in standard location
-OPENAI_MODEL=gpt-4o # Optional, defaults to gpt-4o-mini in server code
-# ... other optional env vars
-```
+Whether playing games, watching videos, or browsing online, These agents will talk to you and each other about whatever you're doing and will also talk to you directly when prompted! They can also perform online searches and even deep searches! The motivation behind this project is to create not one, but multiple multimodal virtual companions who are very lifelike, responsive, and charming. They can see, hear, and speak about anything presented to them on screen!
 
-## Installation
-
-```bash
-# Clone the repository
-git clone <your-repository-url>
-cd demcp_browser_mcp
-
-# Create virtual environment (recommended)
-uv venv
-source .venv/bin/activate # On Linux/macOS
-# .\.venv\Scripts\Activate.ps1 # On Windows PowerShell
-
-# Install dependencies
-uv sync
-
-# Install Playwright browsers
-uv run playwright install --with-deps --no-shell chromium
-```
-
-## Automated Setup from Scratch (Using Scripts)
-
-For a fresh machine setup, you can use the provided scripts to automate the installation of prerequisites and project setup.
-
-**Note:** These scripts require user interaction (e.g., entering API keys, confirming installations, entering sudo passwords) and might need terminal restarts afterwards for PATH changes to take effect.
-
-1.  **Download the appropriate script** for your operating system (`start.sh` for macOS, `start_linux.sh` for Linux, `start_windows.ps1` for Windows) to a convenient location.
-
-2.  **Make the script executable:**
-    *   **macOS/Linux:** Open your terminal, navigate to the script's location, and run: `chmod +x start.sh` (or `start_linux.sh`)
-    *   **Windows:** No `chmod` needed, but you might need to adjust PowerShell's execution policy. Open PowerShell **as Administrator** and run `Set-ExecutionPolicy RemoteSigned -Scope CurrentUser` (confirm with 'Y'). You only need to do this once.
-
-3.  **Run the script:**
-    *   **macOS:** `./start.sh`
-    *   **Linux:** `./start_linux.sh`
-    *   **Windows:** Open a **regular** PowerShell window (not as admin), navigate to the script's location, and run `.\start_windows.ps1`. (Alternatively, use `powershell -ExecutionPolicy Bypass -File .\start_windows.ps1` to bypass policy for one run).
-
-4.  **Follow the prompts:** The script will guide you through:
-    *   Checking/installing prerequisites (Python, Git, uv, mcp-proxy).
-    *   Asking for the Git repository URL to clone.
-    *   Asking for your OpenAI API Key (input is hidden).
-    *   Setting up the virtual environment and installing dependencies.
-    *   Optionally building and installing the tool globally.
-    *   Optionally starting the server.
-
-5.  **After the script finishes:**
-    *   **Restart your terminal/PowerShell window** to ensure PATH changes are applied.
-    *   Review the generated `.env` file in the project directory.
-    *   Configure your MCP client (e.g., Cursor) according to the instructions printed by the script and the [Client Configuration](#client-configuration) section below.
-
-## Usage (Manual)
-
-If not using the setup scripts or after manual setup:
-
-### SSE Mode
-
-```bash
-# Make sure you are in the project directory with venv activated
-uv run server --port 8000
-```
-
-### stdio Mode
-
-
-**Option 1: Build and install globally**
-
-```bash
-# 1. Build and install
-uv build
-uv tool uninstall demcp_browser_mcp 2>/dev/null || true
-uv tool install dist/demcp_browser_mcp-*.whl --force
-
-# 2. Run (ensure uv tool path is in PATH)
-demcp_browser_mcp run server --port 8000 --stdio --proxy-port 9000
-```
-
-## Client Configuration
-
-### SSE Mode Client Configuration
-
-```json
-{
-  "mcpServers": {
-    "demcp_browser_mcp": {
-      "url": "http://localhost:8000/sse"
-    }
-  }
-}
-```
-
-### stdio Mode Client Configuration
-
-**If running script directly (Option 1 above):**
-
-```json
-{
-  "mcpServers": {
-    "demcp_browser_mcp_dev": { // Example name
-      "command": "python", // Or python3, py.exe etc.
-      "args": [
-        "server/server.py",
-        "--stdio"
-      ],
-      "env": {
-        "OPENAI_API_KEY": "your-api-key" // Or ensure it's in .env
-      },
-      "workingDirectory": "/path/to/your/demcp_browser_mcp" // Set this!
-    }
-  }
-}
-```
-
-**If running globally installed tool (Option 2 above):**
-
-```json
-{
-  "mcpServers": {
-    "demcp_browser_mcp_tool": { // Example name
-      "command": "demcp_browser_mcp", // Or demcp_browser_mcp.exe on Windows
-      "args": [
-        "run",
-        "server",
-        "--stdio"
-        // --port/--proxy-port usually not needed for direct stdio
-      ],
-      "env": {
-        "OPENAI_API_KEY": "your-api-key" // Or ensure it's in .env
-      }
-    }
-  }
-}
-```
-
-### Config Locations
-
-| Client           | Configuration Path                                                |
-| ---------------- | ----------------------------------------------------------------- |
-| Cursor           | `./.cursor/mcp.json` (within the project folder) or global settings |
-| Windsurf         | `~/.codeium/windsurf/mcp_config.json`                             |
-| Claude (Mac)     | `~/Library/Application Support/Claude/claude_desktop_config.json` |
-| Claude (Windows) | `%APPDATA%\Claude\claude_desktop_config.json`                     |
+They transcribe audio output and user microphone input simultaneously while periodically taking screenshots and viewing/reading OCR text on screen. They use this information to form a conversation and chat about anything and everything under the sun!
 
 ## Features
 
-- [x] **Browser Automation**: Control browsers through AI agents
-- [x] **Dual Transport**: Support for both SSE and stdio protocols
-- [x] **VNC Streaming**: Watch browser automation in real-time
-- [x] **Async Tasks**: Execute browser operations asynchronously (Removed in recent updates)
+- Can view images periodically, captioning images and reading text via OCR.
+- Can hear and transcribe computer audio in real-time (English only due to base model size Whisper language limitations but you may replace base with WhisperV3 Turbo for multilingual support).
+- Can hear user microphone input in real-time (English only due to base model size Whisper language limitations but you may replace base with WhisperV3 Turbo for multilingual support).
+- Voice Cloning enables distinct voice output generation for the agents.
+- Have web search functionality enabled via duckduckgo_search.
 
-## Local Development
+## Installation
 
-To develop and test the package locally:
+### Prerequisites
 
-1. Ensure prerequisites and dependencies are installed (see [Installation](#installation)).
-2. Activate your virtual environment (`source .venv/bin/activate` or similar).
-3. Make code changes.
-4. Run the server directly for testing:
-   ```bash
-   python server/server.py --stdio
-   ```
-5. If installing globally:
-   ```bash
-   uv build
-   uv tool install dist/demcp_browser_mcp-*.whl --force
-   demcp_browser_mcp run server --stdio
-   ```
+- You will need `Python 3.12`.
+- You also need to install `Ollama` if you haven't already and download any models you'd like to use in Ollama.
 
-## Docker
+Then, clone the repo and install dependencies.
 
-Using Docker provides a consistent and isolated environment for running the server.
+```
+git clone https://github.com/SingularityMan/vector_companion.git
+cd vector_companion
+conda create --name vector_companion python=3.12
+conda activate vector_companion
+pip install -r requirements.txt
+```
+- You will need a `torch` version compatible with your CUDA version (12.2 or greater, 12.4 recommended) installed (for Mac just install torch). 
 
-```bash
-# Build the Docker image
-docker build -t demcp_browser_mcp .
+For example, to install pytorch 2.5.1 with CUDA 12.4 compatibility:
 
-# Run the container with the default VNC password ("browser-use")
-# --rm ensures the container is automatically removed when it stops
-# -p 8000:8000 maps the server port
-# -p 5900:5900 maps the VNC port
-# Pass OpenAI API Key as environment variable
-docker run --rm -p8000:8000 -p5900:5900 -e OPENAI_API_KEY="your-api-key" demcp_browser_mcp
+```
+pip install torch==2.5.1+cu124 torchvision==0.20.1+cu124 torchaudio==2.5.1+cu124 --extra-index-url https://download.pytorch.org/whl/cu124
 
-# Run with a custom VNC password read from a file
-echo "your-secure-password" > vnc_password.txt
-docker run --rm -p8000:8000 -p5900:5900 \
-  -e OPENAI_API_KEY="your-api-key" \
-  -v $(pwd)/vnc_password.txt:/run/secrets/vnc_password:ro \
-  demcp_browser_mcp
 ```
 
-*Note: The Docker image runs the server in SSE mode by default. Modify the Dockerfile's CMD instruction for stdio mode.* 
+## VRAM requirements:
 
-### VNC Viewer
+VRAM requirements vary greatly, and it all depends on which models you use. 
+To see which models are being used, please see `config.py`. You can swap these models out at any time.
 
-```bash
-# Browser-based viewer (run on your host machine)
-git clone https://github.com/novnc/noVNC
-cd noVNC
-./utils/launch.sh --vnc localhost:5900
+### Lower-bound example (12-15GB VRAM)
+
+| Component                  | Model/Description                                        | VRAM Requirement |
+|----------------------------|----------------------------------------------------------|------------------|
+| Language/Vision Model      | Gemma3-4b                                              | 7 GB             |
+| Analysis and Vision Models | Smallest thinking model + Gemma3-4b                      | ~14 GB           |
+| Whisper Base               | Whisper base                                             | < 1 GB           |
+| XTTSv2                     | XTTSv2                                                 | ~4 GB            |
+| **Total Range**            | (Depending on mode: Analysis vs Chat Mode)             | 12 - 19 GB       |
+
+### Upper-bound example (48GB VRAM or greater)
+
+| Component                  | Model/Description                                        | VRAM Requirement |
+|----------------------------|----------------------------------------------------------|------------------|
+| Language/Vision Model      | gemma-3-27b-it-q4_0_Small-QAT + Gemma3-4b (context_length-dependent)| 28 GB        |
+| Analysis and Vision Models | QWQ-32b + Gemma3-4b (with QWQ-32b at 4096 context length) | ~39 GB           |
+| WhisperV3 Turbo            | WhisperV3 Turbo                                          | ~5 GB            |
+| XTTSv2                     | XTTSv2                                                 | ~4 GB            |
+
+
+## Audio Loop back
+
+### Windows:
+
+  - You will need VB-Cable installed on your PC to handle the audio loopback. 
+  - Once installed, link it to your headset via sound settings.
+
+### MacOS
+
+  - Same as Windows, but instead you can install `Blackhole` or `Soundflower`
+
+### Linux
+
+  - You will need to create a Virtual Sink (Null Sink) to enable audio loop back. Simply run this command:
+
+   `pactl load-module module-null-sink sink_name=VirtualLoopback sink_properties=device.description=VirtualLoopback`
+  
+  - Then you may set it up as the default sink via the following:
+
+   `pactl set-default-sink VirtualLoopback`
+
+  - Alternatively, you can use `pavucontrol` to route specific application outputs to the VirtualLoopback device.
+
+  - Finally, If you want this setup available each time you start your system, you can add the module load command to your `PulseAudio` configuration. 
+  Editing your `default.pa` (usually found in `/etc/pulse/` or `~/.config/pulse/`) and adding the following:
+   
+  `load-module module-null-sink sink_name=VirtualLoopback sink_properties=device.description=VirtualLoopback`
+
+### LangSearch API
+
+Vector Companion will use either `duckduckgo search` or `LangSearch`, whichever is available, in order to perform online searches. In order to use `LangSearch` you will need an [API key](https://docs.langsearch.com/limits/api-limits) and store an environment variable called `LANGSEARCH_API_KEY`. Otherwise, Vector Companion will try to use duckduckgo_search instead.
+
+### Reddit PRAW
+
+In order to search reddit during Deep Search, you must create a [bot](https://www.reddit.com/r/reddit.com/wiki/api/) and store your credentials in the following environment variables:
+
+```
+REDDIT_CLIENT_ID
+REDDIT_CLIENT_SECRET
+REDDIT_USER_AGENT
 ```
 
-Access `http://localhost:6080/vnc.html` in your browser.
-Default password: `browser-use` (unless overridden using the custom password method in Dockerfile)
+### Usage
+After meeting the necessary prerequisites, installing the required dependencies, and configuring then troubleshooting any VB Cable issues (listed below), simply run `activate.bat` or `main.py`.
 
-<div align="center">
-  <img width="428" alt="VNC Screenshot" src="https://github.com/user-attachments/assets/45bc5bee-418d-4182-94f5-db84b4fc0b3a" />
-  <br><br>
-  <img width="428" alt="VNC Screenshot" src="https://github.com/user-attachments/assets/7db53f41-fc00-4e48-8892-f7108096f9c4" />
-</div>
-
-## Example
-
-Try asking your AI (configured with the MCP server):
-
-```text
-@demcp_browser_mcp run task: open https://news.ycombinator.com and return the top 5 articles as a list
+```
+conda activate vector_companion
+python main.py
 ```
 
-## Support
+# Installing Flash Attention
 
-For issues or inquiries: [cobrowser.xyz](https://cobrowser.xyz)
+## Linux
 
-## Star History
+`pip install flash-attn`
 
-<div align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=co-browser/demcp_browser_mcp&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=co-browser/demcp_browser_mcp&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=co-browser/demcp_browser_mcp&type=Date" />
-  </picture>
-</div>
+## Windows
+
+Windows does not have official support for Flash Attention, but it is possible to install it.
+This will be a very lengthy and difficult process, so following each step carefully will get you there.
+
+### Installing Microsoft Visual Studio Code 
+Install Microsoft Visual Studio Code's latest version (2022) that is compatible with your CUDA version (12.2 or greater) and in the installer, make sure to include these capabilities:
+   - MSVC v143 - VS 2022 C++ x64/x86 build tools (x86 & x84)
+   - C++ CMake Tools for Windows
+   - Windows 10 or Windows 11 SDK, depending on your Windows OS
+
+### Installing Torch/Cuda
+After that, install a version of `torch` compatible with your CUDA version that is compatible with MSVC.
+
+### Building flash_attn from source
+Lastly, make sure to carefully edit then run `flash-attn-clone-source-compile-stable-torch.bat` in order to build flash_attn from source. Make sure to edit the file to compile flash_attn for a version compatible with your torch/CUDA and python version.
+
+### Contributing
+Contributions are welcome! You may follow our [contribution](CONTRIBUTING.md) guides here.
+
+### License
+This project is licensed under the [Vector Companion License](LICENSE.md) - see the LICENSE file for details.
+
+Note: This project includes the XTTSv2 model, which is licensed under a restrictive license. Please refer to the XTTSv2 License for specific terms and conditions.
