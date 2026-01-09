@@ -16,5 +16,3 @@ To ensure the integrity and confidentiality of this process, BunkerCoin leverage
 
 Central to the protocol's consensus mechanism is the Nakamoto-style longest chain rule, which harmonizes with the unique transmission and validation processes to uphold network security and integrity. BunkerCoin's architecture not only challenges traditional blockchain paradigms but also paves the way for secure, decentralized communications in bandwidth-constrained environments worldwide, marking a significant leap forward in the field of distributed ledger technology.
 \end{abstract}
-
-\end{document}
